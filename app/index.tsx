@@ -1,105 +1,84 @@
 import { Image, Text, View } from "react-native";
 
-export default function ProfileCard() {
-  const boxShadow = {
-    shadowColor: "#111",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 3,
-  };
-
+export default function TampilanAkhir() {
   return (
     <View style={{
       flex: 1,
-      backgroundColor: "#f1f1f1",
-      alignItems: "center",
+      backgroundColor: "#f6f6f6",
       justifyContent: "center",
-      paddingVertical: 30,
+      alignItems: "center",
+      padding: 30,
     }}>
-      {/* Info */}
+      
+      {/* Nama + NIM */}
       <View style={{
-        backgroundColor: "#101010",
-        borderRadius: 10,
+        backgroundColor: "#000",
         paddingVertical: 12,
         paddingHorizontal: 20,
-        marginBottom: 22,
+        borderRadius: 10,
         alignItems: "center",
+        marginBottom: 20,
       }}>
         <Text style={{
-          color: "#ff5555",
-          fontSize: 22,
-          fontWeight: "700",
+          fontSize: 20,
+          fontWeight: "bold",
+          color: "#ff5252",
         }}>RISKI RIYANTO</Text>
         <Text style={{
-          color: "#eeeeee",
+          color: "#fff",
           fontSize: 16,
         }}>105841115822</Text>
       </View>
 
-      {/* Circle */}
+      {/* Lingkaran Hijau */}
       <View style={{
         width: 50,
         height: 50,
-        backgroundColor: "#2e7d32",
         borderRadius: 25,
-        marginBottom: 25,
+        backgroundColor: "green",
+        marginBottom: 20,
       }} />
 
-      {/* Box with image */}
-      <View style={{
-        width: 210,
-        height: 110,
-        backgroundColor: "#3b5998",
-        borderRadius: 12,
-        overflow: "hidden",
-        marginBottom: 25,
-        ...boxShadow,
-      }}>
-        <Image
-          source={require("./assets/kucing.jpg")}
-          style={{
-            width: "100%",
-            height: "100%",
-            resizeMode: "cover",
-          }}
-        />
-      </View>
+      {/* Gambar Kucing */}
+      <Image
+        source={require("./assets/kucing.jpg")}
+        style={{
+          width: 200,
+          height: 100,
+          borderRadius: 10,
+          marginBottom: 20,
+        }}
+      />
 
-      {/* Triangle */}
+      {/* Segitiga Ungu */}
       <View style={{
         width: 0,
         height: 0,
-        borderLeftWidth: 55,
-        borderRightWidth: 55,
-        borderBottomWidth: 100,
+        borderLeftWidth: 50,
+        borderRightWidth: 50,
+        borderBottomWidth: 80,
         borderLeftColor: "transparent",
         borderRightColor: "transparent",
-        borderBottomColor: "#6a1b9a",
-        marginBottom: 25,
+        borderBottomColor: "purple",
+        marginBottom: 20,
       }} />
 
-      {/* Badge */}
+      {/* Pill Orange */}
       <View style={{
-        width: 250,
-        height: 60,
-        backgroundColor: "#ff9800",
-        borderRadius: 30,
+        backgroundColor: "#ffa726",
+        paddingHorizontal: 25,
+        paddingVertical: 12,
+        borderRadius: 999,
         flexDirection: "row",
-        justifyContent: "center",
         alignItems: "center",
-        paddingHorizontal: 20,
-        ...boxShadow,
       }}>
         <Text style={{
-          color: "#fff",
           fontSize: 18,
-          fontWeight: "600",
+          fontWeight: "bold",
+          color: "#fff",
           marginRight: 8,
         }}>105841115822</Text>
-        <Text style={{
-          fontSize: 22,
-        }}>🔥</Text>
+        <Text style={{ fontSize: 20 }}>🔥</Text>
       </View>
     </View>
   );
