@@ -3,67 +3,30 @@ import { Image, StyleSheet, Text, View } from "react-native";
 export default function Index() {
   return (
     <View style={styles.container}>
-      {/* Bagian yang sudah ada: Nama dan NIM */}
-      <View
-        style={{
-          backgroundColor: "black",
-          borderRadius: 10,
-          padding: 15, // Menambahkan padding agar teks tidak terlalu mepet
-          marginBottom: 20, // Menambahkan margin bawah
-          alignItems: "center", // Memastikan teks di tengah horizontal
-        }}
-      >
-        <Text
-          style={{
-            color: "red",
-            fontSize: 25,
-            fontWeight: "bold", // Menambahkan bold agar lebih jelas
-          }}
-        >
-          RISKI RIYANTO
-        </Text>
-
-        <Text
-          style={{
-            fontWeight: "bold",
-            color: "white",
-            fontSize: 18, // Menyesuaikan ukuran font
-          }}
-        >
-          105841115822
-        </Text>
+      {/* Identitas */}
+      <View style={styles.identityBox}>
+        <Text style={styles.name}>RISKI RIYANTO</Text>
+        <Text style={styles.nim}>105841115822</Text>
       </View>
 
-      {/* Lingkaran hijau yang sudah ada */}
-      <View
-        style={{
-          width: 50,
-          height: 50,
-          backgroundColor: "green",
-          borderRadius: 100,
-          marginBottom: 20, // Menambahkan margin bawah
-        }}
-      ></View>
+      {/* Lingkaran Hijau */}
+      <View style={styles.circle} />
 
-      {/* Tugas 1: Tambahkan Persegi Panjang dengan Gambar */}
-      <View style={styles.rectangle}>
+      {/* Persegi Panjang dengan Gambar */}
+      <View style={styles.imageBox}>
         <Image
           source={require("./assets/kucing.jpg")}
-          // Placeholder gambar
-          style={styles.rectangleImage}
-          accessibilityLabel="Gambar placeholder di dalam persegi panjang"
+          style={styles.image}
         />
       </View>
 
-      {/* Tugas 2: Tambahkan Segitiga */}
-      <View style={styles.triangle}></View>
+      {/* Segitiga */}
+      <View style={styles.triangle} />
 
-      {/* Tugas 3: Tambahkan Pil (Tabung) dengan Teks dan Icon */}
+      {/* Pil dengan Teks dan Emoji */}
       <View style={styles.pill}>
-        <Text style={styles.pillText}>105841115822</Text>{" "}
-        {/* Menggunakan NIM sebagai "stambuk" */}
-        <Text style={styles.pillIcon}>⭐</Text>{" "}
-        {/* Menggunakan emoji sebagai ikon */}
+        <Text style={styles.pillText}>105841115822</Text>
+        <Text style={styles.pillIcon}>⭐</Text>
       </View>
     </View>
   );
@@ -72,70 +35,87 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: "#e5e5e5",
     alignItems: "center",
-    backgroundColor: "#f0f0f0", // Menambahkan warna latar belakang untuk visibilitas
-    padding: 20, // Menambahkan padding keseluruhan
+    justifyContent: "center",
+    padding: 25,
   },
-  // Style untuk Persegi Panjang
-  rectangle: {
+  identityBox: {
+    backgroundColor: "#000",
+    borderRadius: 8,
+    padding: 14,
+    marginBottom: 18,
+    alignItems: "center",
+  },
+  name: {
+    color: "#ff4444",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  nim: {
+    color: "#fff",
+    fontSize: 17,
+    fontWeight: "600",
+  },
+  circle: {
+    width: 52,
+    height: 52,
+    backgroundColor: "green",
+    borderRadius: 26,
+    marginBottom: 20,
+  },
+  imageBox: {
     width: 200,
     height: 100,
-    backgroundColor: "blue",
+    backgroundColor: "#3366cc",
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden", // Penting untuk memastikan gambar tidak keluar dari batas
-    marginBottom: 20, // Menambahkan margin bawah
-    elevation: 5, // Menambahkan sedikit bayangan untuk efek 3D (Android)
-    shadowColor: "#000", // Bayangan untuk iOS
+    overflow: "hidden",
+    marginBottom: 20,
+    elevation: 4,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
-  rectangleImage: {
-    width: "100%", // Gambar mengisi seluruh lebar persegi panjang
-    height: "100%", // Gambar mengisi seluruh tinggi persegi panjang
-    resizeMode: "cover", // Memastikan gambar mengisi area tanpa distorsi
-    borderRadius: 10, // Mengikuti border radius parent
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
   },
-  // Style untuk Segitiga
   triangle: {
     width: 0,
     height: 0,
-    backgroundColor: "transparent",
+    borderLeftWidth: 60,
+    borderRightWidth: 60,
+    borderBottomWidth: 120,
     borderStyle: "solid",
-    borderLeftWidth: 60, // Lebar dasar segitiga
-    borderRightWidth: 60, // Lebar dasar segitiga
-    borderBottomWidth: 120, // Tinggi segitiga
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
-    borderBottomColor: "purple", // Warna segitiga
-    marginBottom: 20, // Menambahkan margin bawah
+    borderBottomColor: "purple",
+    marginBottom: 20,
   },
-  // Style untuk Pil (Tabung)
   pill: {
-    width: 280, // Lebar pil
-    height: 60, // Tinggi pil
+    width: 260,
+    height: 58,
     backgroundColor: "orange",
-    borderRadius: 30, // Setengah dari tinggi untuk membuatnya berbentuk pil
-    flexDirection: "row", // Mengatur konten secara horizontal
-    justifyContent: "center", // Memusatkan konten secara horizontal
-    alignItems: "center", // Memusatkan konten secara vertikal
-    paddingHorizontal: 20, // Padding horizontal di dalam pil
-    elevation: 5, // Menambahkan sedikit bayangan untuk efek 3D (Android)
-    shadowColor: "#000", // Bayangan untuk iOS
+    borderRadius: 29,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 18,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowRadius: 3,
+    elevation: 4,
   },
   pillText: {
-    color: "white",
-    fontSize: 20,
+    color: "#fff",
+    fontSize: 19,
     fontWeight: "bold",
-    marginRight: 10, // Spasi antara teks dan ikon
+    marginRight: 10,
   },
   pillIcon: {
-    fontSize: 24, // Ukuran ikon
+    fontSize: 23,
   },
 });
