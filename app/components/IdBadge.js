@@ -1,3 +1,4 @@
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const IdBadge = ({ studentId }) => {
@@ -11,15 +12,15 @@ const IdBadge = ({ studentId }) => {
 
 const badgeStyles = StyleSheet.create({
   badgeContainer: {
-    width: 270, // Lebih lebar untuk memastikan teks tidak terpotong
-    height: 70, // Lebih tinggi untuk memastikan teks tidak terpotong
-    backgroundColor: "#ffb300", // Warna sedikit berbeda
-    borderRadius: 35, // Disesuaikan dengan tinggi baru
+    width: 270,
+    height: 70,
+    backgroundColor: "#ffb300",
+    borderRadius: 35,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 30,
-    shadowColor: "#000",
+    shadowColor: "#000", // Bayangan langsung di sini
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
@@ -27,12 +28,12 @@ const badgeStyles = StyleSheet.create({
   },
   badgeText: {
     color: "#ffffff",
-    fontSize: 20, // Ukuran font sedikit berbeda
+    fontSize: 20,
     fontWeight: "600",
-    marginRight: 12, // Margin sedikit berbeda
+    marginRight: 12,
   },
   badgeIcon: {
-    fontSize: 26, // Ukuran emoji sedikit berbeda
+    fontSize: 26,
   },
 });
 
