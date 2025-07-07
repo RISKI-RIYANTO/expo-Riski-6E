@@ -1,8 +1,11 @@
-import { Image, StyleSheet, View } from "react-native";
+import React from "react";
+import { Image, StyleSheet, View } from "react-native"; // Tambah View
 
 const ImageContainer = ({ imageSource }) => {
   return (
     <View style={imageStyles.wrapper}>
+      {" "}
+      {/* Pembungkus untuk bayangan */}
       <Image
         source={imageSource}
         style={imageStyles.media}
@@ -20,8 +23,7 @@ const imageStyles = StyleSheet.create({
     height: 125,
     borderRadius: 18,
     overflow: "hidden",
-    marginBottom: 30,
-    shadowColor: "#000",
+    shadowColor: "#000", // Bayangan langsung di sini
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.35,
     shadowRadius: 6,
