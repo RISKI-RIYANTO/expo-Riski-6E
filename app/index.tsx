@@ -1,27 +1,39 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-// Impor komponen-komponen baru
-import InfoSection from './components/InfoSection';
-import Shape from './components/Shape';
-import ImageContainer from './components/ImageContainer';
+// Impor komponen-komponen mandiri
 import IdBadge from './components/IdBadge';
+import ImageContainer from './components/ImageContainer';
+import InfoSection from './components/InfoSection';
 
-export default function MainProfileScreen() { // Mengganti nama fungsi komponen utama
+// Impor komponen Shape yang sudah diperbarui
+import Shape from './components/Shape';
+
+export default function MainProfileScreen() {
   const studentName = "RISKI RIYANTO";
   const studentId = "105841115822";
 
   return (
     <View style={appStyles.mainLayout}>
-      <InfoSection name={studentName} id={studentId} />
+      <View style={appStyles.componentWrapper}> {/* Wrapper untuk margin bawah */}
+        <InfoSection name={studentName} id={studentId} />
+      </View>
 
-      <Shape type="circle" size={60} color="#4caf50" marginB={30} /> {/* Lingkaran */}
+      <View style={appStyles.componentWrapper}>
+        <Shape type="circle" shapeColor="#4caf50" shapeSize={60} />
+      </View>
 
-      <ImageContainer imageSource={require("./assets/kucing.jpg")} /> {/* Kotak Gambar */}
+      <View style={appStyles.componentWrapper}>
+        <ImageContainer imageSource={require("./assets/kucing.jpg")} />
+      </View>
 
-      <Shape type="triangle" size={120} color="#8e24aa" marginB={30} /> {/* Segitiga */}
+      <View style={appStyles.componentWrapper}>
+        <Shape type="triangle" shapeColor="#8e24aa" shapeSize={120} /> {/* Segitiga */}
+      </View>
 
-      <IdBadge studentId={studentId} /> {/* Badge ID Siswa (yang tadinya "pli") */}
+      <View> {/* Tidak ada marginBottom setelah badge terakhir */}
+        <IdBadge studentId={studentId} />
+      </View>
     </View>
   );
 }
@@ -29,9 +41,12 @@ export default function MainProfileScreen() { // Mengganti nama fungsi komponen 
 const appStyles = StyleSheet.create({
   mainLayout: {
     flex: 1,
-    backgroundColor: '#f8f8f8', // Warna latar belakang sedikit berbeda
+    backgroundColor: '#f8f8f8',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 50,
+  },
+  componentWrapper: {
+    marginBottom: 30, // Memberikan jarak antar komponen
   },
 });
