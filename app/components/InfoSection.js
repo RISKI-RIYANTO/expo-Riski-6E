@@ -1,3 +1,4 @@
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const InfoSection = ({ name, id }) => {
@@ -15,9 +16,8 @@ const infoStyles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: 18,
     paddingHorizontal: 28,
-    marginBottom: 30,
     alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: "#000", // Bayangan langsung di sini
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
