@@ -1,52 +1,102 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
 
-// Impor komponen-komponen mandiri
-import IdBadge from './components/IdBadge';
-import ImageContainer from './components/ImageContainer';
-import InfoSection from './components/InfoSection';
-
-// Impor komponen Shape yang sudah diperbarui
-import Shape from './components/Shape';
-
-export default function MainProfileScreen() {
-  const studentName = "RISKI RIYANTO";
-  const studentId = "105841115822";
-
+export default function Index() {
   return (
-    <View style={appStyles.mainLayout}>
-      <View style={appStyles.componentWrapper}> {/* Wrapper untuk margin bawah */}
-        <InfoSection name={studentName} id={studentId} />
+    <View style={styles.mainWrapper}>
+      {/* Kotak untuk Nama */}
+      <View style={styles.nameBox}>
+        <Text style={styles.fullName}>RISKI RIYANTO</Text>
       </View>
 
-      <View style={appStyles.componentWrapper}>
-        <Shape type="circle" shapeColor="#4caf50" shapeSize={60} />
+      {/* Bentuk Segitiga */}
+      <View style={styles.triangleWrapper}>
+        <View style={styles.triangleShape} />
       </View>
 
-      <View style={appStyles.componentWrapper}>
-        <ImageContainer imageSource={require("./assets/kucing.jpg")} />
-      </View>
-
-      <View style={appStyles.componentWrapper}>
-        <Shape type="triangle" shapeColor="#8e24aa" shapeSize={120} /> {/* Segitiga */}
-      </View>
-
-      <View> {/* Tidak ada marginBottom setelah badge terakhir */}
-        <IdBadge studentId={studentId} />
+      {/* Kapsul untuk Stambuk */}
+      <View style={styles.capsuleShape}>
+        <Text style={styles.studentId}>105841115822</Text>
       </View>
     </View>
   );
 }
 
-const appStyles = StyleSheet.create({
-  mainLayout: {
+const styles = StyleSheet.create({
+  mainWrapper: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 50,
+    backgroundColor: "#FAFAFA",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 60,
+    paddingBottom: 60,
   },
-  componentWrapper: {
-    marginBottom: 30, // Memberikan jarak antar komponen
+
+  // Styling untuk kotak nama
+  nameBox: {
+    width: 280,
+    height: 90,
+    backgroundColor: "#1976D2",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    marginBottom: 45,
+    shadowColor: "#333",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.5,
+    elevation: 6,
+  },
+
+  fullName: {
+    fontSize: 22,
+    fontWeight: "600",
+    color: "#FAFAFA",
+    textAlign: "center",
+    letterSpacing: 1,
+  },
+
+  // Wrapper untuk segitiga
+  triangleWrapper: {
+    marginBottom: 45,
+  },
+
+  triangleShape: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 55,
+    borderRightWidth: 55,
+    borderBottomWidth: 85,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderBottomColor: "#F57C00",
+  },
+
+  // Styling untuk kapsul stambuk
+  capsuleShape: {
+    backgroundColor: "#388E3C",
+    borderRadius: 30,
+    paddingVertical: 18,
+    paddingHorizontal: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#333",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.5,
+    elevation: 6,
+  },
+
+  studentId: {
+    color: "#FAFAFA",
+    fontWeight: "600",
+    fontSize: 18,
+    textAlign: "center",
+    letterSpacing: 0.5,
   },
 });
