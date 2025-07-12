@@ -3,63 +3,46 @@ import React, { useState } from "react";
 export default function Index() {
   const imageData = [
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115822.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115322.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=1",
+      alternateSrc: "https://picsum.photos/300/400?random=11",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115622.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115022.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=2",
+      alternateSrc: "https://picsum.photos/300/400?random=12",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115422.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115122.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=3",
+      alternateSrc: "https://picsum.photos/300/400?random=13",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115922.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115222.jpg?17518714364",
+      originalSrc: "https://picsum.photos/300/400?random=4",
+      alternateSrc: "https://picsum.photos/300/400?random=14",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116022.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116922.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=5",
+      alternateSrc: "https://picsum.photos/300/400?random=15",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116122.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116822.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=6",
+      alternateSrc: "https://picsum.photos/300/400?random=16",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116222.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116722.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=7",
+      alternateSrc: "https://picsum.photos/300/400?random=17",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116322.jpg?17518714368",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116622.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=8",
+      alternateSrc: "https://picsum.photos/300/400?random=18",
     },
     {
-      originalSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116422.jpg?1751871436",
-      alternateSrc:
-        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116522.jpg?1751871436",
+      originalSrc: "https://picsum.photos/300/400?random=9",
+      alternateSrc: "https://picsum.photos/300/400?random=19",
     },
   ];
 
   const [gridItems, setGridItems] = useState(
-    imageData.map((pair) => ({
+    imageData.map((pair, index) => ({
+      id: index,
       originalSrc: pair.originalSrc,
       alternateSrc: pair.alternateSrc,
       displaySrc: pair.originalSrc,
@@ -71,96 +54,167 @@ export default function Index() {
 
   const onGridItemPress = (itemIndex) => {
     setGridItems((currentGridItems) => {
-      const updatedGridItems = [...currentGridItems];
-      const selectedItem = { ...updatedGridItems[itemIndex] };
-
-      // Logika untuk mengubah gambar dan scaling
-      if (!selectedItem.isAlternate) {
-        // Klik pertama: ganti ke gambar alternatif dan scale ke 1.2x
-        selectedItem.isAlternate = true;
-        selectedItem.displaySrc = selectedItem.alternateSrc;
-        selectedItem.currentScaleFactor = 1.2;
-      } else {
-        // Klik kedua dan seterusnya: tingkatkan scale hingga maksimal 2x
-        if (selectedItem.currentScaleFactor < 2) {
-          selectedItem.currentScaleFactor = 2;
+      return currentGridItems.map((item, index) => {
+        if (index === itemIndex) {
+          // Hanya item yang diklik yang akan diubah
+          if (!item.isAlternate) {
+            // Klik pertama: ganti ke gambar alternatif dan scale ke 1.2x
+            return {
+              ...item,
+              isAlternate: true,
+              displaySrc: item.alternateSrc,
+              currentScaleFactor: 1.2,
+            };
+          } else {
+            // Klik kedua dan seterusnya: tingkatkan scale hingga maksimal 2x
+            const newScale = item.currentScaleFactor < 2 ? 2 : 2;
+            return {
+              ...item,
+              currentScaleFactor: newScale,
+            };
+          }
         }
-        // Jika sudah 2x, tetap 2x (tidak ada perubahan)
-      }
-
-      updatedGridItems[itemIndex] = selectedItem;
-      return updatedGridItems;
+        return item; // Item lain tidak berubah
+      });
     });
   };
 
   const onImageError = (index) => {
     setGridItems((currentGridItems) => {
-      const updatedGridItems = [...currentGridItems];
-      updatedGridItems[index] = { ...updatedGridItems[index], hasError: true };
-      return updatedGridItems;
+      return currentGridItems.map((item, i) => {
+        if (i === index) {
+          return { ...item, hasError: true };
+        }
+        return item;
+      });
     });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-5">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">Grid Gambar 3x3</h1>
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          Grid Gambar 3x3
+        </h1>
 
-      {/* Grid Container */}
-      <div className="grid grid-cols-3 gap-3 w-full max-w-lg">
-        {gridItems.map((item, index) => (
-          <div
-            key={index}
-            className="aspect-[3/4] bg-white border border-gray-300 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-200"
-            onClick={() => onGridItemPress(index)}
-          >
-            {item.hasError ? (
-              <div className="flex items-center justify-center h-full">
-                <span className="text-red-500 text-xs text-center p-2">
-                  Gagal memuat gambar
-                </span>
-              </div>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center overflow-hidden">
-                <img
-                  src={item.displaySrc}
-                  alt={`Gambar ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out"
-                  style={{
-                    transform: `scale(${item.currentScaleFactor})`,
-                    transformOrigin: "center center",
-                  }}
-                  onError={() => onImageError(index)}
-                />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Info Panel */}
-      <div className="mt-6 p-4 bg-white rounded-lg shadow-sm max-w-lg w-full">
-        <h3 className="text-lg font-semibold mb-2">Cara Penggunaan:</h3>
-        <ul className="text-sm text-gray-600 space-y-1">
-          <li>• Klik gambar untuk mengubah ke versi alternatif (scale 1.2x)</li>
-          <li>• Klik lagi untuk memperbesar hingga 2x</li>
-          <li>• Setiap gambar dapat diperbesar secara individual</li>
-          <li>• Scale maksimal: 2x dari ukuran asli</li>
-        </ul>
-      </div>
-
-      {/* Debug Info */}
-      <div className="mt-4 p-3 bg-gray-50 rounded-lg max-w-lg w-full">
-        <h4 className="text-sm font-medium mb-2">Status Gambar:</h4>
-        <div className="text-xs text-gray-600">
+        {/* Grid Container 3x3 */}
+        <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
           {gridItems.map((item, index) => (
-            <div key={index} className="flex justify-between py-1">
-              <span>Gambar {index + 1}:</span>
-              <span>
-                {item.isAlternate ? "Alternatif" : "Asli"} - Scale:{" "}
-                {item.currentScaleFactor}x
-              </span>
+            <div
+              key={item.id}
+              className="aspect-[3/4] bg-white border-2 border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:border-blue-400 transition-colors duration-200 shadow-md hover:shadow-lg"
+              onClick={() => onGridItemPress(index)}
+            >
+              {item.hasError ? (
+                <div className="flex items-center justify-center h-full bg-red-50">
+                  <div className="text-center p-4">
+                    <div className="text-red-500 text-sm font-medium mb-2">
+                      ❌ Error
+                    </div>
+                    <div className="text-red-400 text-xs">
+                      Gagal memuat gambar
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center overflow-hidden bg-gray-50">
+                  <img
+                    src={item.displaySrc}
+                    alt={`Gambar ${index + 1} ${
+                      item.isAlternate ? "(Alternatif)" : "(Asli)"
+                    }`}
+                    className="w-full h-full object-cover transition-all duration-300 ease-in-out"
+                    style={{
+                      transform: `scale(${item.currentScaleFactor})`,
+                      transformOrigin: "center center",
+                    }}
+                    onError={() => onImageError(index)}
+                  />
+                </div>
+              )}
             </div>
           ))}
+        </div>
+
+        {/* Status Panel */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            📋 Status Gambar
+          </h2>
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            {gridItems.map((item, index) => (
+              <div
+                key={item.id}
+                className={`p-3 rounded-lg border-2 ${
+                  item.currentScaleFactor > 1
+                    ? "border-blue-200 bg-blue-50"
+                    : "border-gray-200 bg-gray-50"
+                }`}
+              >
+                <div className="font-medium text-gray-800">
+                  Gambar {index + 1}
+                </div>
+                <div className="text-gray-600 mt-1">
+                  <div>
+                    Jenis: {item.isAlternate ? "🔄 Alternatif" : "📷 Asli"}
+                  </div>
+                  <div>Scale: {item.currentScaleFactor}x</div>
+                  <div
+                    className={`text-xs mt-1 ${
+                      item.currentScaleFactor === 2
+                        ? "text-red-600 font-medium"
+                        : item.currentScaleFactor === 1.2
+                        ? "text-blue-600"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {item.currentScaleFactor === 2
+                      ? "🔴 Maksimal"
+                      : item.currentScaleFactor === 1.2
+                      ? "🔵 Diperbesar"
+                      : "⚫ Normal"}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Instruksi Penggunaan */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            🎯 Cara Penggunaan
+          </h2>
+          <div className="space-y-3 text-gray-700">
+            <div className="flex items-start space-x-3">
+              <span className="text-blue-500 font-bold">1.</span>
+              <div>
+                <strong>Klik Pertama:</strong> Gambar berubah ke versi
+                alternatif dan diperbesar menjadi 1.2x
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <span className="text-blue-500 font-bold">2.</span>
+              <div>
+                <strong>Klik Kedua:</strong> Gambar diperbesar hingga maksimal
+                2x
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <span className="text-blue-500 font-bold">3.</span>
+              <div>
+                <strong>Klik Berikutnya:</strong> Gambar tetap pada skala
+                maksimal 2x
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <span className="text-green-500 font-bold">✓</span>
+              <div>
+                <strong>Fitur:</strong> Setiap gambar dapat diperbesar secara
+                individual tanpa mempengaruhi gambar lain
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
