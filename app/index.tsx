@@ -4,40 +4,58 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 export default function Index() {
   const imageData = [
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115822.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115322.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115822.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115322.jpg?1751871436",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115622.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115022.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115622.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115022.jpg?1751871436",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115422.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115122.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115422.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115122.jpg?1751871436",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115922.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115222.jpg?17518714364",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115922.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841115222.jpg?17518714364",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116022.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116922.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116022.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116922.jpg?1751871436",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116122.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116822.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116122.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116822.jpg?1751871436",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116222.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116722.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116222.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116722.jpg?1751871436",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116322.jpg?17518714368",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116622.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116322.jpg?17518714368",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116622.jpg?1751871436",
     },
     {
-      originalSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116422.jpg?1751871436",
-      alternateSrc: "https://simak.unismuh.ac.id/upload/mahasiswa/105841116522.jpg?1751871436",
+      originalSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116422.jpg?1751871436",
+      alternateSrc:
+        "https://simak.unismuh.ac.id/upload/mahasiswa/105841116522.jpg?1751871436",
     },
   ];
 
@@ -63,7 +81,8 @@ export default function Index() {
         selectedItem.currentScaleFactor = 1.2;
       } else {
         // Jika gambar sudah alternatif
-        if (selectedItem.currentScaleFactor < 2) { // Batas maksimal 2x
+        if (selectedItem.currentScaleFactor < 2) {
+          // Batas maksimal 2x
           selectedItem.currentScaleFactor = 2; // Perbesar ke 2x
         }
         // Jika sudah 2x, tetap 2x pada klik berikutnya
@@ -112,8 +131,8 @@ export default function Index() {
       borderColor: "#ddd",
     },
     errorText: {
-      color: 'red',
-      textAlign: 'center',
+      color: "red",
+      textAlign: "center",
       fontSize: 10,
       padding: 5,
     },
