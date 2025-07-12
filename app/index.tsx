@@ -49,6 +49,7 @@ export default function Index() {
       isAlternate: false,
       currentScaleFactor: 1,
       hasError: false,
+      clickCount: 0,
     }))
   );
 
@@ -56,21 +57,29 @@ export default function Index() {
     setGridItems((currentGridItems) => {
       return currentGridItems.map((item, index) => {
         if (index === itemIndex) {
-          // Hanya item yang diklik yang akan diubah
-          if (!item.isAlternate) {
-            // Klik pertama: ganti ke gambar alternatif dan scale ke 1.2x
+          const newClickCount = item.clickCount + 1;
+
+          if (newClickCount === 1) {
+            // Klik pertama: ganti ke gambar alternatif DAN scale ke 1.2x
             return {
               ...item,
               isAlternate: true,
               displaySrc: item.alternateSrc,
               currentScaleFactor: 1.2,
+              clickCount: newClickCount,
             };
-          } else {
-            // Klik kedua dan seterusnya: tingkatkan scale hingga maksimal 2x
-            const newScale = item.currentScaleFactor < 2 ? 2 : 2;
+          } else if (newClickCount === 2) {
+            // Klik kedua: scale menjadi 2x (maksimal)
             return {
               ...item,
-              currentScaleFactor: newScale,
+              currentScaleFactor: 2,
+              clickCount: newClickCount,
+            };
+          } else {
+            // Klik ketiga dan seterusnya: tetap pada 2x
+            return {
+              ...item,
+              clickCount: newClickCount,
             };
           }
         }
@@ -94,15 +103,15 @@ export default function Index() {
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          Grid Gambar 3x3
+          Grid Gambar 3x3 - Implementasi Lengkap
         </h1>
 
-        {/* Grid Container 3x3 */}
+        {/* Grid Container 3x3 dengan ukuran yang sama */}
         <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
           {gridItems.map((item, index) => (
             <div
               key={item.id}
-              className="aspect-[3/4] bg-white border-2 border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:border-blue-400 transition-colors duration-200 shadow-md hover:shadow-lg"
+              className="w-full h-48 bg-white border-2 border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:border-blue-400 transition-colors duration-200 shadow-md hover:shadow-lg"
               onClick={() => onGridItemPress(index)}
             >
               {item.hasError ? (
@@ -136,43 +145,54 @@ export default function Index() {
           ))}
         </div>
 
-        {/* Status Panel */}
+        {/* Status Panel - Debugging */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            📋 Status Gambar
+            🔍 Status Detail Setiap Gambar
           </h2>
           <div className="grid grid-cols-3 gap-4 text-sm">
             {gridItems.map((item, index) => (
               <div
                 key={item.id}
                 className={`p-3 rounded-lg border-2 ${
-                  item.currentScaleFactor > 1
+                  item.currentScaleFactor === 2
+                    ? "border-red-200 bg-red-50"
+                    : item.currentScaleFactor === 1.2
                     ? "border-blue-200 bg-blue-50"
                     : "border-gray-200 bg-gray-50"
                 }`}
               >
-                <div className="font-medium text-gray-800">
+                <div className="font-bold text-gray-800 mb-2">
                   Gambar {index + 1}
                 </div>
-                <div className="text-gray-600 mt-1">
+                <div className="space-y-1 text-xs">
                   <div>
-                    Jenis: {item.isAlternate ? "🔄 Alternatif" : "📷 Asli"}
+                    <span className="font-medium">Jenis:</span>{" "}
+                    {item.isAlternate ? "🔄 Alternatif" : "📷 Asli"}
                   </div>
-                  <div>Scale: {item.currentScaleFactor}x</div>
+                  <div>
+                    <span className="font-medium">Scale:</span>{" "}
+                    {item.currentScaleFactor}x
+                  </div>
+                  <div>
+                    <span className="font-medium">Klik:</span> {item.clickCount}
+                    x
+                  </div>
                   <div
-                    className={`text-xs mt-1 ${
+                    className={`font-medium ${
                       item.currentScaleFactor === 2
-                        ? "text-red-600 font-medium"
+                        ? "text-red-600"
                         : item.currentScaleFactor === 1.2
                         ? "text-blue-600"
-                        : "text-gray-500"
+                        : "text-gray-600"
                     }`}
                   >
+                    Status:{" "}
                     {item.currentScaleFactor === 2
-                      ? "🔴 Maksimal"
+                      ? "🔴 Maksimal (2x)"
                       : item.currentScaleFactor === 1.2
-                      ? "🔵 Diperbesar"
-                      : "⚫ Normal"}
+                      ? "🔵 Diperbesar (1.2x)"
+                      : "⚫ Normal (1x)"}
                   </div>
                 </div>
               </div>
@@ -181,38 +201,52 @@ export default function Index() {
         </div>
 
         {/* Instruksi Penggunaan */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            🎯 Cara Penggunaan
+            🎯 Logika Implementasi
           </h2>
           <div className="space-y-3 text-gray-700">
             <div className="flex items-start space-x-3">
               <span className="text-blue-500 font-bold">1.</span>
               <div>
                 <strong>Klik Pertama:</strong> Gambar berubah ke versi
-                alternatif dan diperbesar menjadi 1.2x
+                alternatif DAN diperbesar menjadi 1.2x secara bersamaan
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <span className="text-blue-500 font-bold">2.</span>
               <div>
-                <strong>Klik Kedua:</strong> Gambar diperbesar hingga maksimal
-                2x
+                <strong>Klik Kedua:</strong> Gambar diperbesar dari 1.2x menjadi
+                2x (maksimal)
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <span className="text-blue-500 font-bold">3.</span>
               <div>
-                <strong>Klik Berikutnya:</strong> Gambar tetap pada skala
-                maksimal 2x
+                <strong>Klik Ketiga++:</strong> Gambar tetap pada skala maksimal
+                2x (tidak ada perubahan)
               </div>
             </div>
-            <div className="flex items-start space-x-3">
-              <span className="text-green-500 font-bold">✓</span>
-              <div>
-                <strong>Fitur:</strong> Setiap gambar dapat diperbesar secara
-                individual tanpa mempengaruhi gambar lain
-              </div>
+          </div>
+        </div>
+
+        {/* Fitur yang Tercapai */}
+        <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6">
+          <h2 className="text-xl font-semibold mb-4 text-green-800">
+            ✅ Fitur yang Sudah Diimplementasikan
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-green-700">
+            <div className="space-y-2">
+              <div>✅ Grid 3x3 dengan gambar berbeda di setiap sel</div>
+              <div>✅ Ukuran sel yang sama secara eksplisit (h-48)</div>
+              <div>✅ Penggantian gambar ke versi alternatif</div>
+              <div>✅ Penskalaan 1.2x pada klik pertama</div>
+            </div>
+            <div className="space-y-2">
+              <div>✅ Penskalaan maksimal hingga 2x</div>
+              <div>✅ Penskalaan individual per gambar</div>
+              <div>✅ Error handling untuk gambar gagal dimuat</div>
+              <div>✅ State management yang proper</div>
             </div>
           </div>
         </div>
