@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useState } from 'react';
+import { View, Image, TouchableOpacity, StyleSheet, Dimensions, Text } from 'react-native';
 
 export default function Index() {
   const imageData = [
@@ -48,55 +41,53 @@ export default function Index() {
     },
   ];
 
-  // Konstanta untuk skala
-  const INITIAL_SCALE_ON_ALT = 1.2; // Skala awal saat beralih ke gambar alternatif
-  const MAX_SCALE = 2.4; // Skala maksimum
-  const SCALE_INCREMENT = 0.2; // Peningkatan skala per klik
+  // Batasan skala
+  const MIN_SCALE = 1; // Skala minimum saat gambar tidak diskalakan/alternatif
+  const MAX_SCALE = 2; // Skala maksimum yang diminta (2x)
+  const SCALE_INCREMENT = 0.2; // Peningkatan skala per klik (sesuai feedback sebelumnya)
 
   const [items, setItems] = useState(
     imageData.map((img, index) => ({
       id: index,
       src: img.main,
       altSrc: img.alt,
-      scale: 1, // Skala awal saat ditampilkan adalah 1x (normal)
+      scale: MIN_SCALE, // Setiap gambar dimulai pada skala normal (1x)
       isAlt: false,
     }))
   );
 
-  const { width } = Dimensions.get("window");
+  const { width } = Dimensions.get('window');
   const containerPadding = 16;
   const gridGap = 8;
 
-  const availableWidth = width - 2 * containerPadding;
-  const CELL_SIZE = (availableWidth - 2 * gridGap) / 3;
+  const availableWidth = width - (2 * containerPadding);
+  const CELL_SIZE = (availableWidth - (2 * gridGap)) / 3;
 
   const handleClick = (index) => {
     setItems((prev) =>
       prev.map((item, i) => {
-        if (i === index) {
-          // Hanya ubah item yang diklik
+        if (i === index) { // Hanya ubah item yang diklik
           const newIsAlt = !item.isAlt;
           const newSrc = newIsAlt ? item.altSrc : item.main;
 
           let newScale = item.scale;
 
-          if (newIsAlt) {
-            // Jika beralih ke gambar alternatif
-            // Jika skala saat ini adalah 1 (normal), mulai dari INITIAL_SCALE_ON_ALT (1.2)
-            // Jika sudah diskalakan (misal 1.2, 1.4, dst), teruskan peningkatan
-            if (item.scale === 1) {
-              // Jika dari keadaan normal (1x)
-              newScale = INITIAL_SCALE_ON_ALT;
+          // Logika penskalaan:
+          // 1. Jika gambar belum diskalakan (scale === MIN_SCALE) dan beralih ke alt, mulai dari 1.2x.
+          // 2. Jika gambar sudah diskalakan dan belum mencapai MAX_SCALE, tingkatkan 0.2x.
+          // 3. Jika gambar sudah di MAX_SCALE, kembali ke MIN_SCALE (1x).
+          // 4. Jika beralih kembali ke gambar utama (bukan alt), selalu reset ke MIN_SCALE.
+
+          if (newIsAlt) { // Jika beralih ke gambar alternatif (diklik dan menjadi alt)
+            if (item.scale === MIN_SCALE) {
+              newScale = MIN_SCALE + SCALE_INCREMENT; // Mulai dari 1.2x
             } else if (item.scale < MAX_SCALE) {
-              // Jika sudah diskalakan tapi belum maks
-              newScale = Math.min(item.scale + SCALE_INCREMENT, MAX_SCALE);
-            } else {
-              // Jika sudah di skala maksimum (2.4)
-              newScale = INITIAL_SCALE_ON_ALT; // Kembali ke skala awal alternatif (1.2)
+              newScale = Math.min(item.scale + SCALE_INCREMENT, MAX_SCALE); // Tingkatkan, maks 2x
+            } else { // item.scale sudah MAX_SCALE
+              newScale = MIN_SCALE; // Kembali ke 1x setelah mencapai maks saat beralih ke alt
             }
-          } else {
-            // Jika beralih kembali ke gambar utama
-            newScale = 1; // Reset skala ke 1 (normal)
+          } else { // Jika beralih kembali ke gambar utama (diklik dan tidak lagi alt)
+            newScale = MIN_SCALE; // Selalu reset ke 1x
           }
 
           return {
@@ -119,22 +110,13 @@ export default function Index() {
         {items.map((item, index) => (
           <TouchableOpacity
             key={item.id}
-            style={[
-              styles.gridItem,
-              { width: CELL_SIZE, height: CELL_SIZE, margin: gridGap / 2 },
-            ]}
+            style={[styles.gridItem, { width: CELL_SIZE, height: CELL_SIZE, margin: gridGap / 2 }]}
             onPress={() => handleClick(index)}
           >
             <Image
               source={{ uri: item.src }}
               style={[styles.image, { transform: [{ scale: item.scale }] }]}
-              onError={(e) =>
-                console.log(
-                  "Error loading image:",
-                  e.nativeEvent.error,
-                  item.src
-                )
-              }
+              onError={(e) => console.log('Error loading image:', e.nativeEvent.error, item.src)}
             />
           </TouchableOpacity>
         ))}
@@ -147,34 +129,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#f3f4f6",
+    backgroundColor: '#f3f4f6',
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: 32,
   },
   gridContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     maxWidth: 600,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginHorizontal: -4,
   },
   gridItem: {
     borderWidth: 2,
-    borderColor: "#d1d5db",
+    borderColor: '#d1d5db',
     borderRadius: 8,
-    overflow: "hidden",
-    justifyContent: "center",
-    alignItems: "center",
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
 });
