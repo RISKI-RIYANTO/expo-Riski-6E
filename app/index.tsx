@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const imageData = [
@@ -66,6 +66,7 @@ export default function Index() {
       displaySrc: pair.originalSrc,
       isAlternate: false,
       currentScaleFactor: 1,
+      hasError: false, // State baru untuk melacak kesalahan pemuatan gambar
     }))
   );
 
@@ -85,6 +86,15 @@ export default function Index() {
       }
 
       updatedGridItems[itemIndex] = selectedItem;
+      return updatedGridItems;
+    });
+  };
+
+  // Fungsi untuk menangani kesalahan pemuatan gambar
+  const onImageError = (index) => {
+    setGridItems((currentGridItems) => {
+      const updatedGridItems = [...currentGridItems];
+      updatedGridItems[index] = { ...updatedGridItems[index], hasError: true };
       return updatedGridItems;
     });
   };
@@ -118,6 +128,12 @@ export default function Index() {
       borderWidth: 1,
       borderColor: "#ddd",
     },
+    errorText: {
+      // Gaya untuk teks error
+      color: "red",
+      textAlign: "center",
+      fontSize: 10,
+    },
   };
 
   return (
@@ -130,17 +146,19 @@ export default function Index() {
             onPress={() => onGridItemPress(index)}
             activeOpacity={0.7}
           >
-            <Image
-              style={[
-                inlineStyles.itemImage,
-                { transform: [{ scale: item.currentScaleFactor }] },
-              ]}
-              resizeMode="cover"
-              source={{ uri: item.displaySrc }}
-              onError={(e) =>
-                console.log("Gagal memuat gambar:", e.nativeEvent.error)
-              }
-            />
+            {item.hasError ? ( // Tampilkan teks error jika ada kesalahan
+              <Text style={inlineStyles.errorText}>Gagal memuat gambar</Text>
+            ) : (
+              <Image
+                style={[
+                  inlineStyles.itemImage,
+                  { transform: [{ scale: item.currentScaleFactor }] },
+                ]}
+                resizeMode="cover"
+                source={{ uri: item.displaySrc }}
+                onError={() => onImageError(index)} // Panggil fungsi error handler baru
+              />
+            )}
           </TouchableOpacity>
         ))}
       </View>
