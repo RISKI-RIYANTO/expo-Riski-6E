@@ -9,8 +9,8 @@ import {
 } from "react-native";
 
 export default function Index() {
-  const allImageData = [
-    // 9 gambar utama dan 9 gambar alternatif
+  const imageData = [
+    // 9 gambar utama dan 9 gambar alternatif yang dipasangkan
     {
       main: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=400&fit=crop", // Gambar Utama 1
       alt: "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=300&h=400&fit=crop", // Alternatif 1
@@ -47,73 +47,55 @@ export default function Index() {
       main: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=300&h=400&fit=crop", // Gambar Utama 9
       alt: "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=300&h=400&fit=crop", // Alternatif 9
     },
-    // Jika Anda ingin menguji penanganan kasus gambar kurang dari 9,
-    // Anda bisa menghapus beberapa objek dari array di atas.
-    // Contoh: hapus 3 objek terakhir untuk menguji 6 gambar
   ];
 
-  // Batasan skala
-  const MIN_SCALE = 1; // Skala minimum saat gambar tidak diskalakan/alternatif
-  const MAX_SCALE = 2; // Skala maksimum yang diminta (2x)
-  const SCALE_INCREMENT = 0.2; // Peningkatan skala per klik
+  // Skala yang diminta
+  const BASE_SCALE_MAIN = 1.2; // Skala gambar utama
+  const SCALE_ALT_IMAGE = BASE_SCALE_MAIN * 2; // Skala gambar alternatif (1.2 * 2 = 2.4)
 
-  // Batasi jumlah gambar yang akan ditampilkan di grid menjadi 9 (untuk grid 3x3)
-  // Ini juga berfungsi sebagai penanganan jika jumlah gambar kurang dari 9
-  const displayedImageData = allImageData.slice(0, 9); // Ambil hanya 9 gambar pertama
+  // Pastikan hanya 9 gambar yang ditampilkan untuk grid 3x3
+  const displayedImageData = imageData.slice(0, 9);
 
   const [items, setItems] = useState(
     displayedImageData.map((img, index) => ({
       id: index,
-      src: img.main,
+      mainSrc: img.main,
       altSrc: img.alt,
-      scale: MIN_SCALE, // Setiap gambar dimulai pada skala normal (1x)
-      isAlt: false,
+      isAlt: false, // Menandakan apakah gambar alternatif sedang ditampilkan
+      currentSrc: img.main, // Sumber gambar yang sedang ditampilkan
+      currentScale: BASE_SCALE_MAIN, // Skala gambar yang sedang ditampilkan
     }))
   );
 
+  // Perhitungan ukuran sel agar responsif dan membentuk grid 3x3 yang pas
   const { width } = Dimensions.get("window");
-  const containerPadding = 16;
-  const gridGap = 8;
+  const COLUMNS = 3; // Jumlah kolom
+  const GRID_PADDING = 16; // Padding container utama (misal dari p-8 di web)
+  const ITEM_MARGIN = 4; // Margin individual untuk setiap item (setengah dari gap)
 
-  const availableWidth = width - 2 * containerPadding;
-  const CELL_SIZE = (availableWidth - 2 * gridGap) / 3;
+  // Lebar total yang tersedia untuk grid di dalam padding container
+  const availableWidth = width - 2 * GRID_PADDING;
+  // Total margin horizontal antar item (untuk 3 kolom, ada 2 ruang antar item)
+  const totalItemMargin = (COLUMNS - 1) * (ITEM_MARGIN * 2); // (3-1) * (4*2) = 2 * 8 = 16
+  // Ukuran sel = (lebar tersedia - total margin antar item) / jumlah kolom
+  const CELL_SIZE = (availableWidth - totalItemMargin) / COLUMNS;
 
   const handleClick = (index) => {
     setItems((prev) =>
       prev.map((item, i) => {
         if (i === index) {
           // Hanya ubah item yang diklik
-          const newIsAlt = !item.isAlt;
-          const newSrc = newIsAlt ? item.altSrc : item.main;
+          const newIsAlt = !item.isAlt; // Toggle status alternatif
 
-          let newScale = item.scale;
-
-          // Logika penskalaan:
-          // 1. Jika gambar belum diskalakan (scale === MIN_SCALE) dan beralih ke alt, mulai dari 1.2x.
-          // 2. Jika gambar sudah diskalakan dan belum mencapai MAX_SCALE, tingkatkan 0.2x.
-          // 3. Jika gambar sudah di MAX_SCALE, kembali ke MIN_SCALE (1x).
-          // 4. Jika beralih kembali ke gambar utama (bukan alt), selalu reset ke MIN_SCALE.
-
-          if (newIsAlt) {
-            // Jika beralih ke gambar alternatif (diklik dan menjadi alt)
-            if (item.scale === MIN_SCALE) {
-              newScale = MIN_SCALE + SCALE_INCREMENT; // Mulai dari 1.2x
-            } else if (item.scale < MAX_SCALE) {
-              newScale = Math.min(item.scale + SCALE_INCREMENT, MAX_SCALE); // Tingkatkan, maks 2x
-            } else {
-              // item.scale sudah MAX_SCALE
-              newScale = MIN_SCALE; // Kembali ke 1x setelah mencapai maks saat beralih ke alt
-            }
-          } else {
-            // Jika beralih kembali ke gambar utama (diklik dan tidak lagi alt)
-            newScale = MIN_SCALE; // Selalu reset ke 1x
-          }
+          // Tentukan sumber gambar baru dan skala baru secara instan
+          const newSrc = newIsAlt ? item.altSrc : item.mainSrc;
+          const newScale = newIsAlt ? SCALE_ALT_IMAGE : BASE_SCALE_MAIN;
 
           return {
             ...item,
-            src: newSrc,
             isAlt: newIsAlt,
-            scale: newScale,
+            currentSrc: newSrc,
+            currentScale: newScale,
           };
         }
         return item; // Item lain tetap tidak berubah
@@ -138,20 +120,30 @@ export default function Index() {
           {items.map((item, index) => (
             <TouchableOpacity
               key={item.id}
+              // Gunakan CELL_SIZE yang dihitung secara dinamis untuk ukuran sel
+              // Tambahkan margin untuk menciptakan jarak antar sel
               style={[
                 styles.gridItem,
-                { width: CELL_SIZE, height: CELL_SIZE, margin: gridGap / 2 },
+                {
+                  width: CELL_SIZE,
+                  height: CELL_SIZE,
+                  marginHorizontal: ITEM_MARGIN, // Margin horizontal
+                  marginVertical: ITEM_MARGIN, // Margin vertical
+                },
               ]}
               onPress={() => handleClick(index)}
             >
               <Image
-                source={{ uri: item.src }}
-                style={[styles.image, { transform: [{ scale: item.scale }] }]}
+                source={{ uri: item.currentSrc }}
+                style={[
+                  styles.image,
+                  { transform: [{ scale: item.currentScale }] }, // Terapkan skala yang sedang aktif
+                ]}
                 onError={(e) =>
                   console.log(
                     "Error loading image:",
                     e.nativeEvent.error,
-                    item.src
+                    item.currentSrc
                   )
                 }
               />
@@ -166,7 +158,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 16, // Sama dengan GRID_PADDING dari komponen
     backgroundColor: "#f3f4f6",
   },
   title: {
@@ -178,19 +170,24 @@ const styles = StyleSheet.create({
   gridContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
+    // Gunakan space-between atau flex-start dan margin untuk mengatur jarak
+    // Kita akan menggunakan flex-start dan margin di item untuk kontrol penuh
+    justifyContent: "flex-start", // Pastikan item berjejer dari kiri
     alignItems: "center",
-    maxWidth: 600,
-    alignSelf: "center",
-    marginHorizontal: -4,
+    alignSelf: "center", // Pusatkan gridContainer di tengah layar jika lebarnya kurang dari layar penuh
+    // Set lebar gridContainer secara eksplisit agar pas 3 kolom
+    // Total lebar = (jumlah kolom * ukuran sel) + (jumlah gap antar kolom * margin per gap)
+    width: Dimensions.get("window").width - 2 * 16, // Lebar layar - (2 * padding container)
+    // Ini akan memastikan grid pas di dalam padding
   },
   gridItem: {
     borderWidth: 2,
-    borderColor: "#d1d5db",
-    borderRadius: 8,
+    borderColor: "#000",
+    borderRadius: 4,
     overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
   },
   image: {
     width: "100%",
