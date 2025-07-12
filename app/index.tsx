@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const imageData = [
@@ -70,23 +69,23 @@ export default function Index() {
     }))
   );
 
-  const onGridItemPress = (itemIndex: number) => {
-    // Anotasi tipe ditambahkan di sini
+  const onGridItemPress = (itemIndex) => {
     setGridItems((currentGridItems) => {
       const updatedGridItems = [...currentGridItems];
       const selectedItem = { ...updatedGridItems[itemIndex] };
 
+      // Logika untuk mengubah gambar dan scaling
       if (!selectedItem.isAlternate) {
+        // Klik pertama: ganti ke gambar alternatif dan scale ke 1.2x
         selectedItem.isAlternate = true;
         selectedItem.displaySrc = selectedItem.alternateSrc;
         selectedItem.currentScaleFactor = 1.2;
       } else {
-        // Jika gambar sudah alternatif
+        // Klik kedua dan seterusnya: tingkatkan scale hingga maksimal 2x
         if (selectedItem.currentScaleFactor < 2) {
-          // Batas maksimal 2x
-          selectedItem.currentScaleFactor = 2; // Perbesar ke 2x
+          selectedItem.currentScaleFactor = 2;
         }
-        // Jika sudah 2x, tetap 2x pada klik berikutnya
+        // Jika sudah 2x, tetap 2x (tidak ada perubahan)
       }
 
       updatedGridItems[itemIndex] = selectedItem;
@@ -94,8 +93,7 @@ export default function Index() {
     });
   };
 
-  const onImageError = (index: number) => {
-    // Anotasi tipe ditambahkan di sini
+  const onImageError = (index) => {
     setGridItems((currentGridItems) => {
       const updatedGridItems = [...currentGridItems];
       updatedGridItems[index] = { ...updatedGridItems[index], hasError: true };
@@ -103,69 +101,68 @@ export default function Index() {
     });
   };
 
-  const inlineStyles = {
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#f0f0f0",
-      padding: 20,
-    },
-    gridContainer: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      width: "100%",
-      maxWidth: 480,
-    },
-    gridItemWrapper: {
-      width: "33.33%",
-      aspectRatio: 0.75,
-      padding: 5,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    itemImage: {
-      width: "100%",
-      height: "100%",
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: "#ddd",
-    },
-    errorText: {
-      color: "red",
-      textAlign: "center",
-      fontSize: 10,
-      padding: 5,
-    },
-  };
-
   return (
-    <View style={inlineStyles.container}>
-      <View style={inlineStyles.gridContainer}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-5">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Grid Gambar 3x3</h1>
+
+      {/* Grid Container */}
+      <div className="grid grid-cols-3 gap-3 w-full max-w-lg">
         {gridItems.map((item, index) => (
-          <TouchableOpacity
+          <div
             key={index}
-            style={inlineStyles.gridItemWrapper}
-            onPress={() => onGridItemPress(index)}
-            activeOpacity={0.7}
+            className="aspect-[3/4] bg-white border border-gray-300 rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-200"
+            onClick={() => onGridItemPress(index)}
           >
             {item.hasError ? (
-              <Text style={inlineStyles.errorText}>Gagal memuat gambar</Text>
+              <div className="flex items-center justify-center h-full">
+                <span className="text-red-500 text-xs text-center p-2">
+                  Gagal memuat gambar
+                </span>
+              </div>
             ) : (
-              <Image
-                style={[
-                  inlineStyles.itemImage,
-                  { transform: [{ scale: item.currentScaleFactor }] },
-                ]}
-                resizeMode="cover"
-                source={{ uri: item.displaySrc }}
-                onError={() => onImageError(index)}
-              />
+              <div className="w-full h-full flex items-center justify-center overflow-hidden">
+                <img
+                  src={item.displaySrc}
+                  alt={`Gambar ${index + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out"
+                  style={{
+                    transform: `scale(${item.currentScaleFactor})`,
+                    transformOrigin: "center center",
+                  }}
+                  onError={() => onImageError(index)}
+                />
+              </div>
             )}
-          </TouchableOpacity>
+          </div>
         ))}
-      </View>
-    </View>
+      </div>
+
+      {/* Info Panel */}
+      <div className="mt-6 p-4 bg-white rounded-lg shadow-sm max-w-lg w-full">
+        <h3 className="text-lg font-semibold mb-2">Cara Penggunaan:</h3>
+        <ul className="text-sm text-gray-600 space-y-1">
+          <li>• Klik gambar untuk mengubah ke versi alternatif (scale 1.2x)</li>
+          <li>• Klik lagi untuk memperbesar hingga 2x</li>
+          <li>• Setiap gambar dapat diperbesar secara individual</li>
+          <li>• Scale maksimal: 2x dari ukuran asli</li>
+        </ul>
+      </div>
+
+      {/* Debug Info */}
+      <div className="mt-4 p-3 bg-gray-50 rounded-lg max-w-lg w-full">
+        <h4 className="text-sm font-medium mb-2">Status Gambar:</h4>
+        <div className="text-xs text-gray-600">
+          {gridItems.map((item, index) => (
+            <div key={index} className="flex justify-between py-1">
+              <span>Gambar {index + 1}:</span>
+              <span>
+                {item.isAlternate ? "Alternatif" : "Asli"} - Scale:{" "}
+                {item.currentScaleFactor}x
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
