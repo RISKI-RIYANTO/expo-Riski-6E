@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const imageData = [
@@ -97,24 +97,6 @@ export default function Index() {
       backgroundColor: "#f0f0f0",
       padding: 20,
     },
-    headerInfoContainer: {
-      backgroundColor: "black",
-      borderRadius: 10,
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      marginBottom: 20,
-      alignItems: "center",
-    },
-    studentNameText: {
-      color: "red",
-      fontSize: 25,
-      fontWeight: "bold",
-    },
-    studentIdText: {
-      fontWeight: "bold",
-      color: "white",
-      fontSize: 18,
-    },
     gridContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
@@ -136,22 +118,10 @@ export default function Index() {
       borderWidth: 1,
       borderColor: "#ddd",
     },
-    decorativeCircle: {
-      width: 50,
-      height: 50,
-      backgroundColor: "green",
-      borderRadius: 100,
-      marginTop: 20,
-    },
   };
 
   return (
     <View style={inlineStyles.container}>
-      <View style={inlineStyles.headerInfoContainer}>
-        <Text style={inlineStyles.studentNameText}>RISKI RIYANTO</Text>
-        <Text style={inlineStyles.studentIdText}>105841115822</Text>
-      </View>
-
       <View style={inlineStyles.gridContainer}>
         {gridItems.map((item, index) => (
           <TouchableOpacity
@@ -174,8 +144,6 @@ export default function Index() {
           </TouchableOpacity>
         ))}
       </View>
-
-      <View style={inlineStyles.decorativeCircle}></View>
     </View>
   );
 }
