@@ -70,7 +70,8 @@ export default function Index() {
     }))
   );
 
-  const onGridItemPress = (itemIndex) => {
+  const onGridItemPress = (itemIndex: number) => {
+    // Anotasi tipe ditambahkan di sini
     setGridItems((currentGridItems) => {
       const updatedGridItems = [...currentGridItems];
       const selectedItem = { ...updatedGridItems[itemIndex] };
@@ -93,7 +94,8 @@ export default function Index() {
     });
   };
 
-  const onImageError = (index) => {
+  const onImageError = (index: number) => {
+    // Anotasi tipe ditambahkan di sini
     setGridItems((currentGridItems) => {
       const updatedGridItems = [...currentGridItems];
       updatedGridItems[index] = { ...updatedGridItems[index], hasError: true };
