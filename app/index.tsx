@@ -58,30 +58,29 @@ export default function Index() {
       return currentGridItems.map((item, index) => {
         if (index === itemIndex) {
           const newClickCount = item.clickCount + 1;
+          let newScaleFactor = item.currentScaleFactor;
+          let newIsAlternate = item.isAlternate;
+          let newDisplaySrc = item.displaySrc;
 
           if (newClickCount === 1) {
             // Klik pertama: ganti ke gambar alternatif DAN scale ke 1.2x
-            return {
-              ...item,
-              isAlternate: true,
-              displaySrc: item.alternateSrc,
-              currentScaleFactor: 1.2,
-              clickCount: newClickCount,
-            };
-          } else if (newClickCount === 2) {
-            // Klik kedua: scale menjadi 2x (maksimal)
-            return {
-              ...item,
-              currentScaleFactor: 2,
-              clickCount: newClickCount,
-            };
+            newScaleFactor = 1.2;
+            newIsAlternate = true;
+            newDisplaySrc = item.alternateSrc;
           } else {
-            // Klik ketiga dan seterusnya: tetap pada 2x
-            return {
-              ...item,
-              clickCount: newClickCount,
-            };
+            // Klik selanjutnya: tingkatkan skala secara bertahap hingga maksimal 2x
+            // Ini mengasumsikan peningkatan 0.2x per klik setelah klik pertama
+            const nextScale = newScaleFactor + 0.2;
+            newScaleFactor = Math.min(nextScale, 2); // Pastikan tidak melebihi 2x
           }
+
+          return {
+            ...item,
+            isAlternate: newIsAlternate,
+            displaySrc: newDisplaySrc,
+            currentScaleFactor: newScaleFactor,
+            clickCount: newClickCount,
+          };
         }
         return item; // Item lain tidak berubah
       });
@@ -157,8 +156,8 @@ export default function Index() {
                 className={`p-3 rounded-lg border-2 ${
                   item.currentScaleFactor === 2
                     ? "border-red-200 bg-red-50"
-                    : item.currentScaleFactor === 1.2
-                    ? "border-blue-200 bg-blue-50"
+                    : item.currentScaleFactor > 1
+                    ? "border-blue-200 bg-blue-50" // Untuk skala > 1 tapi < 2
                     : "border-gray-200 bg-gray-50"
                 }`}
               >
@@ -172,17 +171,17 @@ export default function Index() {
                   </div>
                   <div>
                     <span className="font-medium">Scale:</span>{" "}
-                    {item.currentScaleFactor}x
+                    {item.currentScaleFactor.toFixed(1)}x{" "}
+                    {/* Menggunakan toFixed(1) untuk pembulatan */}
                   </div>
                   <div>
-                    <span className="font-medium">Klik:</span> {item.clickCount}
-                    x
+                    <span className="font-medium">Klik:</span> {item.clickCount}x
                   </div>
                   <div
                     className={`font-medium ${
                       item.currentScaleFactor === 2
                         ? "text-red-600"
-                        : item.currentScaleFactor === 1.2
+                        : item.currentScaleFactor > 1
                         ? "text-blue-600"
                         : "text-gray-600"
                     }`}
@@ -190,8 +189,8 @@ export default function Index() {
                     Status:{" "}
                     {item.currentScaleFactor === 2
                       ? "🔴 Maksimal (2x)"
-                      : item.currentScaleFactor === 1.2
-                      ? "🔵 Diperbesar (1.2x)"
+                      : item.currentScaleFactor > 1
+                      ? "🔵 Diperbesar" // Tidak spesifik 1.2x lagi, bisa 1.4x, 1.6x, dst.
                       : "⚫ Normal (1x)"}
                   </div>
                 </div>
@@ -203,28 +202,25 @@ export default function Index() {
         {/* Instruksi Penggunaan */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            🎯 Logika Implementasi
+            🎯 Logika Implementasi (Diperbarui)
           </h2>
           <div className="space-y-3 text-gray-700">
             <div className="flex items-start space-x-3">
               <span className="text-blue-500 font-bold">1.</span>
               <div>
-                <strong>Klik Pertama:</strong> Gambar berubah ke versi
-                alternatif DAN diperbesar menjadi 1.2x secara bersamaan
+                <strong>Klik Pertama:</strong> Gambar berubah ke versi alternatif DAN diperbesar menjadi 1.2x.
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <span className="text-blue-500 font-bold">2.</span>
               <div>
-                <strong>Klik Kedua:</strong> Gambar diperbesar dari 1.2x menjadi
-                2x (maksimal)
+                <strong>Klik Kedua & Selanjutnya (hingga 2x):</strong> Gambar akan terus diperbesar sebesar 0.2x per klik hingga mencapai skala maksimal 2x.
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <span className="text-blue-500 font-bold">3.</span>
               <div>
-                <strong>Klik Ketiga++:</strong> Gambar tetap pada skala maksimal
-                2x (tidak ada perubahan)
+                <strong>Setelah Mencapai 2x:</strong> Gambar akan tetap pada skala maksimal 2x (tidak ada perubahan lebih lanjut).
               </div>
             </div>
           </div>
@@ -239,14 +235,14 @@ export default function Index() {
             <div className="space-y-2">
               <div>✅ Grid 3x3 dengan gambar berbeda di setiap sel</div>
               <div>✅ Ukuran sel yang sama secara eksplisit (h-48)</div>
-              <div>✅ Penggantian gambar ke versi alternatif</div>
-              <div>✅ Penskalaan 1.2x pada klik pertama</div>
+              <div>✅ Penggantian gambar ke versi alternatif pada klik pertama</div>
+              <div>✅ Penskalaan bertahap (0.2x) hingga 2x pada setiap klik setelah klik pertama</div>
             </div>
             <div className="space-y-2">
-              <div>✅ Penskalaan maksimal hingga 2x</div>
               <div>✅ Penskalaan individual per gambar</div>
               <div>✅ Error handling untuk gambar gagal dimuat</div>
               <div>✅ State management yang proper</div>
+              <div>✅ Penggunaan 9 gambar primer dan 9 gambar alternatif</div>
             </div>
           </div>
         </div>
