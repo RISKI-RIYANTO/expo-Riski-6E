@@ -71,43 +71,43 @@ const imageData: ImageDataItem[] = [
   {
     id: "1",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115622_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115522_.jpg?1751871436",
     },
   },
   {
     id: "2",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115422_.jpg?1751871436",
     },
     alt: {
-      uri: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Alt2", // Gambar alternatif berbeda
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115322_.jpg?1751871436", // Gambar alternatif berbeda
     },
   },
   {
     id: "3",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115222_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115122_.jpg?1751871436",
     },
   },
   {
     id: "4",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://via.placeholder.com/150/33FF57/FFFFFF?text=Alt4", // Gambar alternatif berbeda
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106022_.jpg?1751871436", // Gambar alternatif berbeda
     },
   },
   {
     id: "5",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105922_.jpg?1751871436",
     },
     alt: {
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
@@ -116,35 +116,37 @@ const imageData: ImageDataItem[] = [
   {
     id: "6",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105722_.jpg?1751871436",
     },
     alt: {
-      uri: "https://via.placeholder.com/150/5733FF/FFFFFF?text=Alt6", // Gambar alternatif berbeda
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105622_.jpg?1751871436", // Gambar alternatif berbeda
     },
   },
   {
     id: "7",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105522_.jpg?1751871436",
     },
     alt: {
-      uri: "https://via.placeholder.com/150/FFFF33/000000?text=Alt7", // Gambar alternatif berbeda
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105422_.jpg?1751871436", // Gambar alternatif berbeda
     },
   },
   {
     id: "8",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105322_.jpg?1751871436",
     },
-    alt: { uri: "https://via.placeholder.com/150/FA8072/000000?text=Alt8" }, // Ini sudah berbeda
+    alt: {
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105222_.jpg?1751871436",
+    }, // Ini sudah berbeda
   },
   {
     id: "9",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105122_.jpg?1751871436",
     },
     alt: {
-      uri: "https://via.placeholder.com/150/33FFFF/000000?text=Alt9", // Gambar alternatif berbeda
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105022_.jpg?1751871436", // Gambar alternatif berbeda
     },
   },
 ];
