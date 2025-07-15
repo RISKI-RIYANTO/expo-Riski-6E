@@ -14,9 +14,10 @@ const { width } = Dimensions.get("window");
 const IMAGE_MARGIN = 8; // Increased margin for more spacing and smaller images
 const NUM_COLUMNS = 3; // Keep at 3 columns
 // Adjusted IMAGE_SIZE to make images smaller.
-// (NUM_COLUMNS * 2) * IMAGE_MARGIN accounts for left/right margin of each image within the total width.
-// I'm adding an extra factor (e.g., 20) to make the images even smaller.
-const IMAGE_SIZE = (width - NUM_COLUMNS * IMAGE_MARGIN * 2 - 30) / NUM_COLUMNS; // Lebar total dikurangi margin kiri/kanan setiap gambar, ditambah extra ruang, lalu dibagi jumlah kolom
+// We make the images smaller by increasing the "empty space" subtracted from the total width.
+// (NUM_COLUMNS * IMAGE_MARGIN * 2) accounts for the horizontal margins between images and at the screen edges.
+// The '- 40' is an additional fixed padding to ensure images are noticeably smaller.
+const IMAGE_SIZE = (width - NUM_COLUMNS * IMAGE_MARGIN * 2 - 40) / NUM_COLUMNS;
 
 // --- Komponen ImageItem (Nested) ---
 interface ImageItemProps {
@@ -25,18 +26,36 @@ interface ImageItemProps {
 }
 
 const ImageItem: React.FC<ImageItemProps> = ({ mainImage, altImage }) => {
-  const [isAlt, setIsAlt] = useState<boolean>(false); // State untuk gambar alternatif/utama
+  const [isAlt, setIsAlt] = useState<boolean>(false); // State untuk mengaktifkan/menonaktifkan gambar alternatif
   const [scale, setScale] = useState<number>(1); // State untuk skala pembesaran
+  const [clickCount, setClickCount] = useState<number>(0); // State baru untuk menghitung jumlah klik
 
   const handlePress = () => {
-    // Toggle gambar alternatif/utama
-    setIsAlt((prevIsAlt) => !prevIsAlt);
+    // Hanya lakukan pembesaran jika jumlah klik kurang dari 2
+    if (clickCount < 2) {
+      setScale((prevScale) => {
+        // Klik pertama: scale 1 -> 1.2
+        // Klik kedua: scale 1.2 -> 2.4 (1.2 * 1.2 = 1.44, lalu 1.44 * 1.2 = 1.728, ini bukan 2.4)
+        // Jadi, kita akan atur skala secara langsung berdasarkan jumlah klik
+        if (clickCount === 0) {
+          return 1.2; // Klik pertama
+        } else {
+          // clickCount === 1
+          return 2.4; // Klik kedua
+        }
+      });
+      setClickCount((prevCount) => prevCount + 1); // Tambah jumlah klik
+    } else {
+      // Jika sudah 2 kali klik, kembalikan ke skala awal dan reset hitungan jika perlu,
+      // atau biarkan tetap 2.4 jika memang hanya perlu berhenti di situ.
+      // Berdasarkan permintaan, kita biarkan tetap 2.4 setelah 2 klik.
+      // Jika ingin mereset ke skala 1 setelah 2 klik, uncomment baris di bawah:
+      // setScale(1);
+      // setClickCount(0);
+    }
 
-    // Perbarui skala: Jika belum 2.4, perbesar 1.2 kali; jika sudah, tetap 2.4.
-    setScale((prevScale) => {
-      const newScale = prevScale * 1.2;
-      return Math.min(newScale, 2.4); // Memastikan skala tidak melebihi 2.4
-    });
+    // Logika penggantian gambar (alt/main) bisa tetap berjalan terpisah dari logika skala
+    setIsAlt((prevIsAlt) => !prevIsAlt);
   };
 
   return (
@@ -61,87 +80,85 @@ interface ImageDataItem {
   alt: ImageSourcePropType;
 }
 
-// Kembali ke 9 pasang gambar untuk grid 3x3
+// 9 pasang gambar untuk grid 3x3
 const imageData: ImageDataItem[] = [
   {
     id: "1",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115822_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105922_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
   },
   {
     id: "2",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105122_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105222_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
   },
   {
     id: "3",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105322_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105422_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
   },
   {
     id: "4",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105522_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105622_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
   },
   {
     id: "5",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105722_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115722_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
   },
   {
     id: "6",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115622_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106022_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
   },
   {
     id: "7",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106222_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106122_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/1058411105822_.jpg?1751871436",
     },
   },
   {
     id: "8",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106322_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
-    alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106422_.jpg?1751871436",
-    },
+    alt: { uri: "https://via.placeholder.com/150/FA8072/000000?text=A8" },
   },
   {
     id: "9",
     main: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106522_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106622_.jpg?1751871436",
+      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
   },
 ];
@@ -150,14 +167,14 @@ const imageData: ImageDataItem[] = [
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Grid 3x3</Text>
+      <Text style={styles.title}>Grid Gambar React Native</Text>
       <FlatList<ImageDataItem>
         data={imageData}
         renderItem={({ item }) => (
           <ImageItem mainImage={item.main} altImage={item.alt} />
         )}
         keyExtractor={(item) => item.id}
-        numColumns={NUM_COLUMNS} // Atur kembali menjadi 3 kolom
+        numColumns={NUM_COLUMNS} // Atur menjadi 3 kolom
         contentContainerStyle={styles.gridContainer}
       />
     </SafeAreaView>
