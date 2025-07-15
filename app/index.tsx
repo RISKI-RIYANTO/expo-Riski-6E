@@ -11,12 +11,9 @@ import {
 } from "react-native";
 
 const { width } = Dimensions.get("window");
-const IMAGE_MARGIN = 8; // Increased margin for more spacing and smaller images
-const NUM_COLUMNS = 3; // Keep at 3 columns
-// Adjusted IMAGE_SIZE to make images smaller.
-// We make the images smaller by increasing the "empty space" subtracted from the total width.
-// (NUM_COLUMNS * IMAGE_MARGIN * 2) accounts for the horizontal margins between images and at the screen edges.
-// The '- 40' is an additional fixed padding to ensure images are noticeably smaller.
+const IMAGE_MARGIN = 8; // Margin antar setiap gambar
+const NUM_COLUMNS = 3; // Jumlah kolom dalam grid
+// Ukuran gambar dihitung agar lebih kecil dan responsif
 const IMAGE_SIZE = (width - NUM_COLUMNS * IMAGE_MARGIN * 2 - 40) / NUM_COLUMNS;
 
 // --- Komponen ImageItem (Nested) ---
@@ -26,35 +23,24 @@ interface ImageItemProps {
 }
 
 const ImageItem: React.FC<ImageItemProps> = ({ mainImage, altImage }) => {
-  const [isAlt, setIsAlt] = useState<boolean>(false); // State untuk mengaktifkan/menonaktifkan gambar alternatif
+  const [isAlt, setIsAlt] = useState<boolean>(false); // State untuk gambar alternatif/utama
   const [scale, setScale] = useState<number>(1); // State untuk skala pembesaran
-  const [clickCount, setClickCount] = useState<number>(0); // State baru untuk menghitung jumlah klik
+  const [clickCount, setClickCount] = useState<number>(0); // State untuk menghitung jumlah klik pada gambar ini
 
   const handlePress = () => {
-    // Hanya lakukan pembesaran jika jumlah klik kurang dari 2
-    if (clickCount < 2) {
-      setScale((prevScale) => {
-        // Klik pertama: scale 1 -> 1.2
-        // Klik kedua: scale 1.2 -> 2.4 (1.2 * 1.2 = 1.44, lalu 1.44 * 1.2 = 1.728, ini bukan 2.4)
-        // Jadi, kita akan atur skala secara langsung berdasarkan jumlah klik
-        if (clickCount === 0) {
-          return 1.2; // Klik pertama
-        } else {
-          // clickCount === 1
-          return 2.4; // Klik kedua
-        }
-      });
-      setClickCount((prevCount) => prevCount + 1); // Tambah jumlah klik
-    } else {
-      // Jika sudah 2 kali klik, kembalikan ke skala awal dan reset hitungan jika perlu,
-      // atau biarkan tetap 2.4 jika memang hanya perlu berhenti di situ.
-      // Berdasarkan permintaan, kita biarkan tetap 2.4 setelah 2 klik.
-      // Jika ingin mereset ke skala 1 setelah 2 klik, uncomment baris di bawah:
-      // setScale(1);
-      // setClickCount(0);
+    // Logika skala: hanya berlaku untuk 2 klik pertama
+    if (clickCount === 0) {
+      setScale(1.2); // Klik pertama: skala 1.2x
+    } else if (clickCount === 1) {
+      setScale(2.0); // Klik kedua: skala 2.0x (sesuai umpan balik)
     }
+    // Untuk klik ketiga dan seterusnya, skala akan tetap pada 2.0 (karena tidak ada 'else' untuk setScale)
 
-    // Logika penggantian gambar (alt/main) bisa tetap berjalan terpisah dari logika skala
+    // Tingkatkan jumlah klik
+    setClickCount((prevCount) => prevCount + 1);
+
+    // Logika penggantian gambar (alternatif/utama)
+    // Akan selalu berganti setiap kali diklik
     setIsAlt((prevIsAlt) => !prevIsAlt);
   };
 
@@ -80,7 +66,7 @@ interface ImageDataItem {
   alt: ImageSourcePropType;
 }
 
-// 9 pasang gambar untuk grid 3x3
+// 9 pasang gambar untuk grid 3x3, dengan beberapa gambar alternatif yang berbeda secara visual
 const imageData: ImageDataItem[] = [
   {
     id: "1",
@@ -97,7 +83,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Alt2", // Gambar alternatif berbeda
     },
   },
   {
@@ -115,7 +101,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/33FF57/FFFFFF?text=Alt4", // Gambar alternatif berbeda
     },
   },
   {
@@ -133,7 +119,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/5733FF/FFFFFF?text=Alt6", // Gambar alternatif berbeda
     },
   },
   {
@@ -142,7 +128,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/1058411105822_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/FFFF33/000000?text=Alt7", // Gambar alternatif berbeda
     },
   },
   {
@@ -150,7 +136,7 @@ const imageData: ImageDataItem[] = [
     main: {
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
-    alt: { uri: "https://via.placeholder.com/150/FA8072/000000?text=A8" },
+    alt: { uri: "https://via.placeholder.com/150/FA8072/000000?text=Alt8" }, // Ini sudah berbeda
   },
   {
     id: "9",
@@ -158,7 +144,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/33FFFF/000000?text=Alt9", // Gambar alternatif berbeda
     },
   },
 ];
