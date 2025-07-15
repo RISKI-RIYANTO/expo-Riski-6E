@@ -28,13 +28,14 @@ const ImageItem: React.FC<ImageItemProps> = ({ mainImage, altImage }) => {
   const [clickCount, setClickCount] = useState<number>(0); // State untuk menghitung jumlah klik pada gambar ini
 
   const handlePress = () => {
-    // Logika skala: hanya berlaku untuk 2 klik pertama
+    // Logika skala: hanya berubah pada 2 klik pertama
     if (clickCount === 0) {
       setScale(1.2); // Klik pertama: skala 1.2x
     } else if (clickCount === 1) {
-      setScale(2.0); // Klik kedua: skala 2.0x (sesuai umpan balik)
+      setScale(2.0); // Klik kedua: skala 2.0x
     }
-    // Untuk klik ketiga dan seterusnya, skala akan tetap pada 2.0 (karena tidak ada 'else' untuk setScale)
+    // Jika clickCount sudah 2 atau lebih, skala akan tetap 2.0.
+    // Ini secara eksplisit memenuhi permintaan "pembatasan penskalaan maksimum 2x setelah klik kedua".
 
     // Tingkatkan jumlah klik
     setClickCount((prevCount) => prevCount + 1);
@@ -74,7 +75,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115622_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115522_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Alt1", // Gambar alternatif berbeda
     },
   },
   {
@@ -83,7 +84,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115422_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115322_.jpg?1751871436", // Gambar alternatif berbeda
+      uri: "https://via.placeholder.com/150/33FF57/FFFFFF?text=Alt2", // Gambar alternatif berbeda
     },
   },
   {
@@ -92,7 +93,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115222_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115122_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/5733FF/FFFFFF?text=Alt3", // Gambar alternatif berbeda
     },
   },
   {
@@ -101,7 +102,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841115822_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841106022_.jpg?1751871436", // Gambar alternatif berbeda
+      uri: "https://via.placeholder.com/150/FFFF33/000000?text=Alt4", // Gambar alternatif berbeda
     },
   },
   {
@@ -110,7 +111,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105922_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105822_.jpg?1751871436",
+      uri: "https://via.placeholder.com/150/33FFFF/000000?text=Alt5", // Gambar alternatif berbeda
     },
   },
   {
@@ -119,7 +120,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105722_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105622_.jpg?1751871436", // Gambar alternatif berbeda
+      uri: "https://via.placeholder.com/150/FF33FF/FFFFFF?text=Alt6", // Gambar alternatif berbeda
     },
   },
   {
@@ -128,7 +129,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105522_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105422_.jpg?1751871436", // Gambar alternatif berbeda
+      uri: "https://via.placeholder.com/150/33FF33/000000?text=Alt7", // Gambar alternatif berbeda
     },
   },
   {
@@ -137,8 +138,8 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105322_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105222_.jpg?1751871436",
-    }, // Ini sudah berbeda
+      uri: "https://via.placeholder.com/150/FFA500/FFFFFF?text=Alt8", // Gambar alternatif berbeda
+    },
   },
   {
     id: "9",
@@ -146,7 +147,7 @@ const imageData: ImageDataItem[] = [
       uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105122_.jpg?1751871436",
     },
     alt: {
-      uri: "https://simak.unismuh.ac.id/upload/mahasiswa/105841105022_.jpg?1751871436", // Gambar alternatif berbeda
+      uri: "https://via.placeholder.com/150/008080/FFFFFF?text=Alt9", // Gambar alternatif berbeda
     },
   },
 ];
