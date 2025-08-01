@@ -1,34 +1,33 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-export default function UniversityInfoScreen() {
+export default function UnismuhInfoScreen() {
   return (
-    <ScrollView contentContainerStyle={styles.pageContent}>
-      <View style={styles.headerSection}>
-        <Text style={styles.headerText}>Universitas Muhammadiyah Makassar</Text>
+    <ScrollView contentContainerStyle={styles.pageContainer}>
+      <View style={styles.cardHeader}>
+        <Text style={styles.titleText}>Universitas Muhammadiyah Makassar</Text>
       </View>
 
       <Image
-        source={require("../assets/images/unismuh.jpg")}
-        style={styles.logoImage}
+        source={require('../assets/images/unismuh.jpg')}
+        style={styles.kampusImage}
         resizeMode="contain"
       />
 
-      <View style={styles.infoSection}>
-        <Text style={styles.bodyText}>
+      <View style={styles.infoCard}>
+        <Text style={styles.mainText}>
           Unismuh Makassar adalah salah satu universitas swasta terkemuka di
-          wilayah Makassar, Sulawesi Selatan. Institusi ini beroperasi di bawah
-          naungan organisasi Persyarikatan Muhammadiyah.
+          Sulawesi Selatan, di bawah naungan Persyarikatan Muhammadiyah.
         </Text>
 
-        <Text style={styles.bodyText}>
-          Alamat Kampus: Jl. Sultan Alauddin No.259, Gn. Sari, Kec. Rappocini,
+        <Text style={styles.mainText}>
+          Lokasi Kampus: Jl. Sultan Alauddin No.259, Gn. Sari, Kec. Rappocini,
           Kota Makassar, Sulawesi Selatan 90222
         </Text>
 
-        <Text style={styles.bodyText}>
-          Tersedia beragam fakultas, seperti Fakultas Keguruan dan Ilmu
-          Pendidikan, Fakultas Ekonomi dan Bisnis, Fakultas Teknik, Fakultas
-          Agama Islam, dan lainnya.
+        <Text style={styles.mainText}>
+          Beberapa fakultas yang tersedia meliputi Fakultas Keguruan dan
+          Ilmu Pendidikan, Fakultas Ekonomi dan Bisnis, Fakultas Teknik, dan
+          Fakultas Agama Islam.
         </Text>
       </View>
     </ScrollView>
@@ -36,37 +35,36 @@ export default function UniversityInfoScreen() {
 }
 
 const styles = StyleSheet.create({
-  pageContent: {
+  pageContainer: {
     padding: 24,
-    alignItems: "center", // Menambahkan properti ini untuk memusatkan semua konten
+    alignItems: 'center',
   },
-  headerSection: {
+  cardHeader: {
     marginBottom: 20,
   },
-  headerText: {
+  titleText: {
     fontSize: 24,
-    fontWeight: "600",
-    color: "#2E8B57",
-    textAlign: "center", // Properti ini sudah ada untuk memusatkan teks header
+    fontWeight: '600',
+    color: '#1a5f7a',
+    textAlign: 'center',
   },
-  logoImage: {
-    width: "100%",
+  kampusImage: {
+    width: '100%',
     height: 180,
     borderRadius: 8,
     marginBottom: 20,
-    borderColor: "#ccc",
   },
-  infoSection: {
-    backgroundColor: "#F0FFF0",
+  infoCard: {
+    backgroundColor: '#e6f7ff',
     padding: 15,
     borderRadius: 10,
-    width: "100%", // Menambahkan properti ini agar teks tidak terdistorsi saat diatur ke tengah
+    width: '100%',
   },
-  bodyText: {
+  mainText: {
     fontSize: 15,
     marginBottom: 12,
-    textAlign: "center", // Mengubah perataan teks menjadi ke tengah
+    textAlign: 'center',
     lineHeight: 24,
-    color: "#333",
+    color: '#333',
   },
 });
