@@ -1,44 +1,46 @@
-import { Tabs } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { MaterialIcons } from "@expo/vector-icons";
+import { Drawer } from "expo-router/drawer";
 
-export default function TabLayout() {
+export default function DrawerLayout() {
   return (
-    <Tabs
+    <Drawer
       screenOptions={{
-        tabBarActiveTintColor: '#006600',
-        tabBarLabelStyle: {
-          fontSize: 12,
+        drawerActiveTintColor: "#006600",
+        drawerLabelStyle: {
+          fontSize: 16,
         },
       }}
     >
-      <Tabs.Screen
+      <Drawer.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => (
+          title: "Halaman Utama",
+          drawerLabel: "Beranda",
+          drawerIcon: ({ color }: { color: string }) => (
             <MaterialIcons name="home" size={24} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="about"
         options={{
-          title: 'About',
-          tabBarIcon: ({ color }) => (
+          title: "Tentang Aplikasi",
+          drawerLabel: "Informasi",
+          drawerIcon: ({ color }: { color: string }) => (
             <MaterialIcons name="info" size={24} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="profile"
         options={{
-          title: 'Profil',
-          tabBarIcon: ({ color }) => (
+          title: "Profil Mahasiswa",
+          drawerLabel: "Profil",
+          drawerIcon: ({ color }: { color: string }) => (
             <MaterialIcons name="person" size={24} color={color} />
           ),
         }}
       />
-    </Tabs>
+    </Drawer>
   );
 }
