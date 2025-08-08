@@ -1,46 +1,44 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Drawer } from "expo-router/drawer";
+import { Tabs } from "expo-router";
 
-export default function DrawerLayout() {
+export default function TabsLayout() {
   return (
-    <Drawer
+    <Tabs
       screenOptions={{
-        drawerActiveTintColor: "#006600",
-        drawerLabelStyle: {
-          fontSize: 16,
-        },
+        tabBarActiveTintColor: "#006600",
+        headerTitleAlign: "center",
       }}
     >
-      <Drawer.Screen
+      <Tabs.Screen
         name="index"
         options={{
-          title: "Halaman Utama",
-          drawerLabel: "Beranda",
-          drawerIcon: ({ color }: { color: string }) => (
-            <MaterialIcons name="home" size={24} color={color} />
+          title: "Home",
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="home" size={size ?? 24} color={color} />
           ),
         }}
       />
-      <Drawer.Screen
+      <Tabs.Screen
         name="about"
         options={{
-          title: "Tentang Aplikasi",
-          drawerLabel: "Informasi",
-          drawerIcon: ({ color }: { color: string }) => (
-            <MaterialIcons name="info" size={24} color={color} />
+          title: "About",
+          tabBarLabel: "About",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="info" size={size ?? 24} color={color} />
           ),
         }}
       />
-      <Drawer.Screen
+      <Tabs.Screen
         name="profile"
         options={{
-          title: "Profil Mahasiswa",
-          drawerLabel: "Profil",
-          drawerIcon: ({ color }: { color: string }) => (
-            <MaterialIcons name="person" size={24} color={color} />
+          title: "Profil",
+          tabBarLabel: "Profil",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="person" size={size ?? 24} color={color} />
           ),
         }}
       />
-    </Drawer>
+    </Tabs>
   );
 }
