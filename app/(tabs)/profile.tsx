@@ -5,9 +5,7 @@ export default function StudentProfile() {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileCard}>
         <Image
-          source={{
-            uri: 'https://simak.unismuh.ac.id/upload/mahasiswa/105841115822_.jpg?1751871436',
-          }}
+          source={require('../assets/kucing.jpg')}
           style={styles.profilePhoto}
         />
 
