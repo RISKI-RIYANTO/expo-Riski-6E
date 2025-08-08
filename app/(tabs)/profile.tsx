@@ -1,13 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function StudentProfile() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileCard}>
         <Image
-          source={{
-            uri: 'https://simak.unismuh.ac.id/upload/mahasiswa/105841115822_.jpg?1751871436',
-          }}
+          source={require("../assets/images/profil.jpg")}
           style={styles.profilePhoto}
         />
 
@@ -45,15 +43,15 @@ export default function StudentProfile() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   profileCard: {
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
     borderRadius: 15,
     padding: 25,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 10,
@@ -65,25 +63,25 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     marginBottom: 20,
     borderWidth: 3,
-    borderColor: '#2ecc71',
+    borderColor: "#2ecc71",
   },
   profileDetails: {
-    width: '100%',
+    width: "100%",
   },
   detailRow: {
     marginBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    borderBottomColor: "#e9ecef",
     paddingBottom: 10,
   },
   detailLabel: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#495057',
+    fontWeight: "bold",
+    color: "#495057",
     marginBottom: 4,
   },
   detailValue: {
     fontSize: 17,
-    color: '#000',
+    color: "#000",
   },
 });
