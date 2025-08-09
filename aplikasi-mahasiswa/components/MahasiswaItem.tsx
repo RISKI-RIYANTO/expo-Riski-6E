@@ -3,7 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function MahasiswaItem({ nama, nim }) {
+type Props = {
+  nama: string;
+  nim: string;
+};
+
+export default function MahasiswaItem({ nama, nim }: Props) {
   return (
     <Link href={`/mahasiswa/${nim}`} style={styles.link}>
       <View style={styles.container}>

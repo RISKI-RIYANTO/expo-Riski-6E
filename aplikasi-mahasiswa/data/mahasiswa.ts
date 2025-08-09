@@ -1,4 +1,10 @@
-const mahasiswa = [
+export type Mahasiswa = {
+  nama: string;
+  nim: string;
+  foto: string;
+};
+
+const mahasiswa: Mahasiswa[] = [
   { nama: 'Budi Santoso', nim: '123456789', foto: 'https://i.pravatar.cc/150?img=1' },
   { nama: 'Siti Aminah', nim: '987654321', foto: 'https://i.pravatar.cc/150?img=2' },
   { nama: 'Andi Wijaya', nim: '202201234', foto: 'https://i.pravatar.cc/150?img=3' },

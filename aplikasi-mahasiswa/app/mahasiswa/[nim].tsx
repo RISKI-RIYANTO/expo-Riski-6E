@@ -4,7 +4,7 @@ import { useLocalSearchParams, Stack } from 'expo-router';
 import mahasiswa from '../../data/mahasiswa';
 
 export default function DetailMahasiswa() {
-  const { nim } = useLocalSearchParams();
+  const { nim } = useLocalSearchParams<{ nim: string }>();
   const data = mahasiswa.find((mhs) => String(mhs.nim) === String(nim));
 
   if (!data) {

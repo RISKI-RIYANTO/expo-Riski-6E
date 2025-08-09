@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, FlatList, StyleSheet, View, Text } from 'react-native';
 import MahasiswaItem from '../components/MahasiswaItem';
-import mahasiswa from '../data/mahasiswa';
+import mahasiswa, { type Mahasiswa } from '../data/mahasiswa';
 
 export default function HomeScreen() {
   return (
@@ -9,7 +9,7 @@ export default function HomeScreen() {
       <View style={styles.headerContainer}>
         <Text style={styles.headerTitle}>Daftar Mahasiswa</Text>
       </View>
-      <FlatList
+      <FlatList<Mahasiswa>
         data={mahasiswa}
         keyExtractor={(item) => String(item.nim)}
         renderItem={({ item }) => (
