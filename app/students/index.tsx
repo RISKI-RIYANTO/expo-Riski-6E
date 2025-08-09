@@ -16,13 +16,15 @@ export default function StudentsListScreen() {
             href={{ pathname: "/students/[nim]", params: { nim: item.nim } }}
             asChild
           >
-            <Pressable style={({ pressed }) => [styles.row, pressed && styles.rowPressed] }>
-              <Ionicons name="person-circle-outline" size={28} color="#2c3e50" style={styles.icon} />
+            <Pressable style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}>
               <View style={styles.textContainer}>
-                <Text style={styles.nameText}>{item.name}</Text>
+                <View style={styles.nameRow}>
+                  <Ionicons name="person-outline" size={16} color="#2c3e50" />
+                  <Text style={styles.nameText}>{item.name}</Text>
+                </View>
                 <Text style={styles.subText}>NIM: {item.nim}</Text>
               </View>
-              <Ionicons name="chevron-forward" size={20} color="#95a5a6" />
+              <Ionicons name="chevron-forward" size={18} color="#95a5a6" />
             </Pressable>
           </Link>
         )}
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: "#ecf0f1",
-    marginLeft: 64,
+    marginLeft: 16,
   },
   row: {
     flexDirection: "row",
@@ -51,11 +53,14 @@ const styles = StyleSheet.create({
   rowPressed: {
     backgroundColor: "#f8f9fa",
   },
-  icon: {
-    marginRight: 12,
-  },
   textContainer: {
     flex: 1,
+    gap: 2,
+  },
+  nameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   nameText: {
     fontSize: 16,
@@ -63,7 +68,6 @@ const styles = StyleSheet.create({
     color: "#2c3e50",
   },
   subText: {
-    marginTop: 2,
     fontSize: 12,
     color: "#7f8c8d",
   },
