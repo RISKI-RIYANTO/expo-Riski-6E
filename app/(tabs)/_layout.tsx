@@ -20,6 +20,16 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="mahasiswa/index"
+        options={{
+          title: "Mahasiswa",
+          tabBarLabel: "Mahasiswa",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="group" size={size ?? 24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="about"
         options={{
           title: "About",
@@ -37,6 +47,12 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="person" size={size ?? 24} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="mahasiswa/[nim]"
+        options={{
+          href: null,
         }}
       />
     </Tabs>
