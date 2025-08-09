@@ -39,6 +39,16 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="students"
+        options={{
+          title: "Mahasiswa",
+          tabBarLabel: "Mahasiswa",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="groups" size={size ?? 24} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
